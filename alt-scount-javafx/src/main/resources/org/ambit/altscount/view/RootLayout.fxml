@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.image.*?>
+<?import eu.hansolo.enzo.gauge.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.cell.*?>
+
+<SplitPane fx:id="root" dividerPositions="0.3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="500.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ambit.altscount.controller.AltScountController">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="129.0" prefWidth="598.0">
+         <children>
+            <SplitPane dividerPositions="0.5" prefHeight="76.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <items>
+                  <HBox spacing="20.0">
+                     <children>
+                        <ImageView fitHeight="150.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="ambit2r.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets top="15.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <GridPane alignment="CENTER_RIGHT">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" prefWidth="194.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Model" />
+                              <Label text="Id" GridPane.rowIndex="1" />
+                              <Label text="Status" GridPane.rowIndex="2" />
+                              <Button id="findBtn" fx:id="findBtn" mnemonicParsing="false" onAction="#handleFindBtnAction" prefHeight="20.0" prefWidth="53.0" text="find" GridPane.rowIndex="3">
+                                 <padding>
+                                    <Insets top="1.0" />
+                                 </padding>
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                              </Button>
+                              <Label fx:id="statusTxt" text="No device found" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label fx:id="modelTxt" prefHeight="19.0" prefWidth="198.0" GridPane.columnIndex="1" />
+                              <Label fx:id="serialTxt" prefHeight="19.0" prefWidth="193.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets top="2.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
+                     <padding>
+                        <Insets top="5.0" />
+                     </padding>
+                  </HBox>
+                  <SimpleGauge fx:id="chargeGauge" prefHeight="192.0" prefWidth="315.0" sectionTextVisible="true" styleClass="red-to-green-10" unit="\%" />
+               </items></SplitPane>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <TabPane prefHeight="195.0" prefWidth="598.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <tabs>
+                <Tab text="Moves">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutY="-3.0" prefHeight="317.0" prefWidth="648.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <TableView fx:id="moveTableView" editable="true" layoutX="76.0" prefHeight="283.0" prefWidth="648.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                          <TableColumn fx:id="colCheck" prefWidth="75.0" />
+                                         	<TableColumn editable="false" prefWidth="122.0" text="Date">
+                                        		 <cellValueFactory>
+                                                <PropertyValueFactory property="date" />
+                                             </cellValueFactory>
+                                        	</TableColumn>
+                                        	<TableColumn editable="false" prefWidth="62.0" text="Distance">
+                                        		<cellValueFactory>
+                                                <PropertyValueFactory property="distance" />
+                                             </cellValueFactory>
+                                        	</TableColumn>
+                                          <TableColumn editable="false" prefWidth="59.0" text="D+">
+                                          	<cellValueFactory>
+                                                <PropertyValueFactory property="ascent" />
+                                             </cellValueFactory>
+                                        	</TableColumn>
+                                          <TableColumn prefWidth="75.0" text="Duration">
+                                           	<cellValueFactory>
+                                                <PropertyValueFactory property="duration" />
+                                             </cellValueFactory>
+                                          </TableColumn>
+                                          <TableColumn editable="false" prefWidth="138.0" text="Name">
+                                          	<cellValueFactory>
+                                                <PropertyValueFactory property="activityName" />
+                                             </cellValueFactory>
+                                          </TableColumn>
+                                      </columns>
+                                    </TableView>
+                                    <HBox prefHeight="25.0" prefWidth="635.0" spacing="2.0">
+                                       <children>
+                                        <Button mnemonicParsing="false" onAction="#handleExportBtnAction" text="Export" />
+                                          <Separator orientation="VERTICAL" prefHeight="29.0" prefWidth="22.0" />
+                                          <TextField fx:id="dirTextField" prefHeight="25.0" prefWidth="323.0" />
+                                          <Button mnemonicParsing="false" onAction="#handleChangeDirBtnAction" text="Change" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="2.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Personnal Settings">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <GridPane prefHeight="60.0" prefWidth="436.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="212.0" minWidth="10.0" prefWidth="139.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="297.0" minWidth="10.0" prefWidth="297.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Sex" />
+                                    <Label text="Birth year" GridPane.rowIndex="1" />
+                                    <Label text="Weigth" GridPane.rowIndex="2" />
+                                    <Label fx:id="sexTxt" GridPane.columnIndex="1" />
+                                    <Label fx:id="birthYearTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label fx:id="weightTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                 </children>
+                              </GridPane>
+                           </children></AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </children></AnchorPane>
+  </items>
+</SplitPane>
