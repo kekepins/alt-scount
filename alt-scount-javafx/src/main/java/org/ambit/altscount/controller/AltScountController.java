@@ -5,11 +5,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 import org.ambit.data.AmbitInfo;
 import org.ambit.data.AmbitModel;
 import org.ambit.data.AmbitSettings;
 import org.ambit.data.LogInfo;
+import org.ambit.pref.AltScountPreferences;
 import org.ambit.usb.UsbException;
 import org.controlsfx.dialog.Dialogs;
 
@@ -23,11 +25,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -38,6 +43,8 @@ import javafx.stage.Window;
 public class AltScountController implements Initializable{
 	
 	private AmbitManager ambitManager = new AmbitManager();
+	
+	private AltScountPreferences prefs;
 	
 	@FXML
 	private Parent root;
@@ -73,10 +80,17 @@ public class AltScountController implements Initializable{
 	@FXML
 	private TableColumn<LogInfo,Boolean> colCheck;
 	
+	@FXML
+	private TableColumn<LogInfo,String> colColor;
+	
+	private Image okImg;
+	
+	private Image unsyncImg;
+	
 	// Model
 	private List<LogInfo> moves;
 	
-	private File exportDir = new File("d:\\gps\\test\\");
+	private File exportDir;// = new File("d:\\gps\\test\\");
 
 	@FXML
 	public void handleFindBtnAction(ActionEvent event) {
@@ -119,7 +133,16 @@ public class AltScountController implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("initialize controller");
+		
+		prefs = AltScountPreferences.getPreference();
+		exportDir = prefs.getSynchroDir();
+		if ( exportDir != null ) {
+			dirTextField.setText(exportDir.getAbsolutePath());
+		}
+		
+		okImg = new Image("/icon/ok.png");
+		
+		unsyncImg = new Image("/icon/notsync.png");
 			
 		chargeGauge.setSections(new Section(0, 10),
                 new Section(10, 20),
@@ -134,6 +157,36 @@ public class AltScountController implements Initializable{
 		
 		colCheck.setCellValueFactory(new PropertyValueFactory<LogInfo,Boolean>("selected"));
 		colCheck.setCellFactory(column -> new CheckBoxTableCell<>()); 
+		
+
+		colColor.setCellValueFactory(new PropertyValueFactory<LogInfo, String>("completeName"));
+		colColor.setCellFactory(column -> {
+		    return new TableCell<LogInfo, String>() {
+		    	@Override
+		        protected void updateItem(String item, boolean empty) {
+		    		super.updateItem(item, empty); 
+		    		if ( !empty ) {
+		    			
+		    			if ( exportDir != null ) {
+		    				File file = new File(exportDir, item +".gpx");
+		    				if ( file.exists() ) {
+		    					ImageView imageView = new ImageView(okImg);
+								imageView.setPreserveRatio(true);
+								imageView.setSmooth(true);
+								setGraphic(imageView);
+		    				}
+		    				else {
+		    					ImageView imageView = new ImageView(unsyncImg);
+								imageView.setPreserveRatio(true);
+								imageView.setSmooth(true);
+								setGraphic(imageView);
+		    				}
+		    			}
+
+		    		}
+		    	}
+		    };
+		});
 		
 	}
 	
@@ -208,6 +261,9 @@ public class AltScountController implements Initializable{
 		
 		if ( exportDir != null ) {
 			dirTextField.setText(exportDir.getAbsolutePath());
+			
+			// Save in prefs
+			prefs.saveSynchoDir(exportDir);
 		}
  
 	}

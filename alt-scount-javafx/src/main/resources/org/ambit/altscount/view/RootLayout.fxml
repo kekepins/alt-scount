@@ -81,8 +81,9 @@
                                  <children>
                                     <TableView fx:id="moveTableView" editable="true" layoutX="76.0" prefHeight="283.0" prefWidth="648.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columns>
-                                          <TableColumn fx:id="colCheck" prefWidth="75.0" />
-                                         	<TableColumn editable="false" prefWidth="122.0" text="Date">
+                                          <TableColumn fx:id="colColor" prefWidth="22.0" />
+                                          <TableColumn fx:id="colCheck" prefWidth="56.0" />
+                                         	<TableColumn editable="false" prefWidth="194.0" text="Date">
                                         		 <cellValueFactory>
                                                 <PropertyValueFactory property="date" />
                                              </cellValueFactory>
