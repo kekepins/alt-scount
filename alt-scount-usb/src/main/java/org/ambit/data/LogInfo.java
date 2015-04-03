@@ -18,7 +18,7 @@ public class LogInfo {
 	
 	private final static int LOG_START = 0x000f4240; // 1 000 000
 	
-	private final static short CHUNK_SIZE = 0x0400; // not the same for all models 
+	//private final static short CHUNK_SIZE = 0x0400; // not the same for all models 
 	
 	private int sampleCount;
 
@@ -88,12 +88,12 @@ public class LogInfo {
 		return sampleCount;
 	}
 
-	public LogInfo(List<Byte> data, int startSamplePart) {
+	public LogInfo(List<Byte> data, int startSamplePart, int chunkSize) {
 		this.startSamplePart = startSamplePart;
-		fromData(data);
+		fromData(data, chunkSize);
 	}
 	
-	private void fromData(List<Byte> data) {
+	private void fromData(List<Byte> data, int chunkSize) {
 		
 		//DisplayUtils.displayBytes(data);
 		//if ( data != null ) return;
@@ -138,7 +138,7 @@ public class LogInfo {
         //System.out.println("nextAdress:" + nextEntryAdress);
         pos += 4 ;
         
-        nextInfoPart = (nextEntryAdress - LOG_START) / CHUNK_SIZE;
+        nextInfoPart = (nextEntryAdress - LOG_START) / chunkSize;
         
         int previousEntryAdress = DataUtils.readInt(data, pos);
         //System.out.println("previousEntryAdress:" + previousEntryAdress);

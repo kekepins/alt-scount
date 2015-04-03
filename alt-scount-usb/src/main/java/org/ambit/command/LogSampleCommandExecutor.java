@@ -28,7 +28,7 @@ public class LogSampleCommandExecutor extends AmbitCommandExecutor<LogSample> {
 		return maxSample;
 	}
 	
-	private final static short CHUNK_SIZE = 0x0400; // not the same for all models // 1024
+	//private final static short CHUNK_SIZE = 0x0400; // not the same for all models // 1024
 	
 	@Override
 	protected AmbitCommand getCommand() {
@@ -38,7 +38,7 @@ public class LogSampleCommandExecutor extends AmbitCommandExecutor<LogSample> {
 	
 	
 	protected byte[] getSendData(AmbitModel ambitModel) {
-		int adress = LOG_START + (sampleReadInfo.partNumber * CHUNK_SIZE);
+		int adress = LOG_START + (sampleReadInfo.partNumber * ambitModel.getChunkSize());
 		byte[] data2 = DataUtils.intToBytes(1024, ByteOrder.LITTLE_ENDIAN);
 		byte[] data1 = DataUtils.intToBytes(adress, ByteOrder.LITTLE_ENDIAN);
 

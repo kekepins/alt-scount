@@ -38,7 +38,7 @@ public class DebugSamplesCommand extends AmbitCommandExecutor<Integer> {
 
 	private List<Byte> remainingBytes = new ArrayList<Byte>();
 	
-	private final static short CHUNK_SIZE = 0x0400; // not the same for all models // 1024
+	//private final static short CHUNK_SIZE = 0x0400; // not the same for all models // 1024
 	// adress = start + (idx * CHUNK_SIZE)
 	
 	@Override
@@ -49,7 +49,7 @@ public class DebugSamplesCommand extends AmbitCommandExecutor<Integer> {
 	
 	
 	protected byte[] getSendData(AmbitModel ambitModel) {
-		int adress = LOG_START + (partNumber * CHUNK_SIZE);
+		int adress = LOG_START + (partNumber * ambitModel.getChunkSize());
 		byte[] data2 = DataUtils.intToBytes(1024, ByteOrder.LITTLE_ENDIAN);
 		byte[] data1 = DataUtils.intToBytes(adress, ByteOrder.LITTLE_ENDIAN);
 

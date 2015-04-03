@@ -3,6 +3,7 @@ package org.ambit.command;
 import java.util.List;
 
 import org.ambit.data.AmbitInfo;
+import org.ambit.data.AmbitModel;
 
 public class DeviceInfoCommandExecutor extends AmbitCommandExecutor <AmbitInfo>{
 
@@ -17,7 +18,7 @@ public class DeviceInfoCommandExecutor extends AmbitCommandExecutor <AmbitInfo>{
 	}
 	
 	// Send recent moveslink version as data, if not ambit biiiiiiip
-	protected byte[] getSendData() {
+	protected byte[] getSendData(AmbitModel ambitModel) {
 		return new byte[] {0x02, 0x00, 0x3A, 0x00};
 	}
 	

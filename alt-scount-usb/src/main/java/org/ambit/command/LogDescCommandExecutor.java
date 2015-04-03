@@ -18,7 +18,7 @@ public class LogDescCommandExecutor  {
 
 	private final static int LOG_START = 0x000f4240; // 1 000 000
 	
-	private final static short CHUNK_SIZE = 0x0400; // not the same for all models 
+	//private final static short CHUNK_SIZE = 0x0400; // not the same for all models 
 	                                                // 1024
 
 	private int partNumber;
@@ -43,7 +43,7 @@ public class LogDescCommandExecutor  {
 	protected byte[] getSendData(AmbitModel ambitModel) {
 		
 		if ( this.adress == 0 ) {
-			int ad = LOG_START + (partNumber * CHUNK_SIZE);
+			int ad = LOG_START + (partNumber * ambitModel.getChunkSize());
 			byte[] data2 = DataUtils.intToBytes(1024, ByteOrder.LITTLE_ENDIAN);
 			byte[] data1 = DataUtils.intToBytes(ad, ByteOrder.LITTLE_ENDIAN);
 	
@@ -128,25 +128,25 @@ public class LogDescCommandExecutor  {
 		if ( pemPosition == -1 ) {
 			throw new UsbException("No PMEM found");
 		}
-		//else if ( (1032 - pemPosition) < 166) {
-			partNumber ++;
-			resultCommand = resultCommand.subList(0, 1032);
-			// log info is in 2 parts ask for more data
-			List<Byte> resultCommand2 = executeCmdPart( ambit, 28).subList(0, 1024);
-			
-			//System.out.println("Size : " + resultCommand2.size());
-			resultCommand.addAll(resultCommand2);
-		//}
 		
-		return extractResult(resultCommand);
+		
+		partNumber ++;
+		resultCommand = resultCommand.subList(0, 1032);
+		// log info is in 2 parts ask for more data
+		List<Byte> resultCommand2 = executeCmdPart( ambit, 28).subList(0, 1024);
+		
+		//System.out.println("Size : " + resultCommand2.size());
+		resultCommand.addAll(resultCommand2);
+	
+		return extractResult(resultCommand, ambit.getAmbitModel().getChunkSize());
 	}
 	
 
 	
-	protected LogInfo extractResult(List<Byte> byteBuffer) {
+	protected LogInfo extractResult(List<Byte> byteBuffer, int chunkSize) {
 		
 		//DisplayUtils.displayBytes(byteBuffer);
-		return new LogInfo(byteBuffer, partNumber + 1);
+		return new LogInfo(byteBuffer, partNumber + 1, chunkSize);
 	}
 	
 	private int getPMEMPosition(List<Byte> data) {
