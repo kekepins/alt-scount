@@ -8,7 +8,6 @@ import org.ambit.data.LogInfo;
 import org.ambit.usb.Device;
 import org.ambit.usb.UsbException;
 import org.ambit.util.DataUtils;
-import org.ambit.util.DisplayUtils;
 
 
 /**
@@ -81,7 +80,7 @@ public class LogDescCommandExecutor  {
 	}
 	
 	private List<Byte> executeCmdPart(Device ambit, int idxFirst) throws UsbException {
-		AmbitSendData header = new AmbitSendData(getCommand(), getSendData());
+		AmbitSendData header = new AmbitSendData(getCommand(), getSendData(ambit.getAmbitModel()));
 		byte[] dataToSend = header.getData();	
 		int val = ambit.write(dataToSend, PACKET_LENGTH, (byte) 0);
 		if (val == -1) {
