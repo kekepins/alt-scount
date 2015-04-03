@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ambit.data.LogInfo;
-import org.ambit.data.LogSample;
 import org.ambit.usb.Device;
 import org.ambit.usb.UsbException;
 //import org.hid4java.HidDevice;

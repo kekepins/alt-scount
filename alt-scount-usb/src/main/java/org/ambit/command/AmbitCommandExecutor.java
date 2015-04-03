@@ -3,6 +3,7 @@ package org.ambit.command;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ambit.data.AmbitModel;
 import org.ambit.usb.Device;
 import org.ambit.usb.UsbException;
 
@@ -19,8 +20,9 @@ public abstract class AmbitCommandExecutor <T>{
 	
 	/**
 	 * To override if there is data to send to the ambit with the command  
+	 * @param ambitModel 
 	 */
-	protected byte[] getSendData() {
+	protected byte[] getSendData(AmbitModel ambitModel) {
 		return null;
 	}
 	
@@ -32,7 +34,7 @@ public abstract class AmbitCommandExecutor <T>{
 	 * 3. Extract result for   
 	 */
 	public T executeCommand(Device ambitDevice) throws UsbException {
-		AmbitSendData sendData = new AmbitSendData(getCommand(), getSendData());
+		AmbitSendData sendData = new AmbitSendData(getCommand(), getSendData(ambitDevice.getAmbitModel()));
 		byte[] data = sendData.getData();		
 		int val = ambitDevice.write(data, PACKET_LENGTH, (byte) 0);
 

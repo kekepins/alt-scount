@@ -1,8 +1,8 @@
 package org.ambit.command;
 import java.nio.ByteOrder;
-import java.util.ArrayList;
 import java.util.List;
 
+import org.ambit.data.AmbitModel;
 import org.ambit.data.LogSample;
 import org.ambit.data.SampleReadInfo;
 import org.ambit.data.sample.SampleFactory;
@@ -14,8 +14,6 @@ import org.ambit.util.DataUtils;
  */
 public class LogSampleCommandExecutor extends AmbitCommandExecutor<LogSample> {
 	private final static int LOG_START = 0x000f4240;
-	
-	//private int partNumber;
 	
 	private SampleReadInfo sampleReadInfo;
 	
@@ -29,11 +27,8 @@ public class LogSampleCommandExecutor extends AmbitCommandExecutor<LogSample> {
 	public int getMaxSample() {
 		return maxSample;
 	}
-
-	//private List<Byte> remainingBytes = new ArrayList<Byte>();
 	
 	private final static short CHUNK_SIZE = 0x0400; // not the same for all models // 1024
-	// adress = start + (idx * CHUNK_SIZE)
 	
 	@Override
 	protected AmbitCommand getCommand() {
@@ -42,7 +37,7 @@ public class LogSampleCommandExecutor extends AmbitCommandExecutor<LogSample> {
 	
 	
 	
-	protected byte[] getSendData() {
+	protected byte[] getSendData(AmbitModel ambitModel) {
 		int adress = LOG_START + (sampleReadInfo.partNumber * CHUNK_SIZE);
 		byte[] data2 = DataUtils.intToBytes(1024, ByteOrder.LITTLE_ENDIAN);
 		byte[] data1 = DataUtils.intToBytes(adress, ByteOrder.LITTLE_ENDIAN);

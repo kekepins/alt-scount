@@ -4,6 +4,7 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ambit.data.AmbitModel;
 import org.ambit.data.LogSample;
 import org.ambit.util.DataUtils;
 import org.ambit.util.DisplayUtils;
@@ -47,7 +48,7 @@ public class DebugSamplesCommand extends AmbitCommandExecutor<Integer> {
 	
 	
 	
-	protected byte[] getSendData() {
+	protected byte[] getSendData(AmbitModel ambitModel) {
 		int adress = LOG_START + (partNumber * CHUNK_SIZE);
 		byte[] data2 = DataUtils.intToBytes(1024, ByteOrder.LITTLE_ENDIAN);
 		byte[] data1 = DataUtils.intToBytes(adress, ByteOrder.LITTLE_ENDIAN);

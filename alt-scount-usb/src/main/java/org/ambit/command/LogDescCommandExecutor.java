@@ -3,6 +3,7 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ambit.data.AmbitModel;
 import org.ambit.data.LogInfo;
 import org.ambit.usb.Device;
 import org.ambit.usb.UsbException;
@@ -40,7 +41,7 @@ public class LogDescCommandExecutor  {
 	}
 	
 
-	protected byte[] getSendData() {
+	protected byte[] getSendData(AmbitModel ambitModel) {
 		
 		if ( this.adress == 0 ) {
 			int ad = LOG_START + (partNumber * CHUNK_SIZE);
