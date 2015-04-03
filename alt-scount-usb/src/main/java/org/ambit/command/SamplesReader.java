@@ -13,12 +13,6 @@ import org.ambit.usb.UsbException;
  */
 public class SamplesReader {
 	
-	private final static int LOG_START = 0x000f4240; // 1 000 000
-	
-	private final static short CHUNK_SIZE = 0x0400; // not the same for all models 
-	                                                // 1024
-	
-
 	/**
 	 * Read all log info in device
 	 * @throws Exception 
@@ -49,10 +43,5 @@ public class SamplesReader {
 			
 		return logs;
 		
-		
-		
 	}
-	
-
-
 }
