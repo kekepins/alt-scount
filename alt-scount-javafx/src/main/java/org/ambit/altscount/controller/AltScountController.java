@@ -94,40 +94,8 @@ public class AltScountController implements Initializable{
 
 	@FXML
 	public void handleFindBtnAction(ActionEvent event) {
-	    // Button was clicked, do something...
-		
-		if( !ambitManager.isConnected() ) {
-			try {
-				ambitManager.connectDevice();
-				
-				if ( !ambitManager.isConnected() ) {
-					System.out.println("No device found");
-					return;
-				}
-				
-				statusTxt.setText("Connected");
-				
-				// Now get ambit info
-				AmbitInfo ambitInfo = ambitManager.getDeviceInfo();
-				AmbitModel ambitModel = ambitManager.getAmbitModel();
-				
-				if ( ambitModel != null ) {
-					modelTxt.setText(ambitModel.getDescription() + "(" + ambitInfo.getModel() + ")");
-				}
-				serialTxt.setText(ambitInfo.getSerial());
-				
-				chargeGauge.setValue(ambitManager.getDeviceCharge());
-				
-				initMoves();
-				
-				initPersonalSettings();
-			} 
-			catch (UsbException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		// Look for device
+	   
+		searchForAmbit();
 	 }
 	
 	
@@ -187,6 +155,10 @@ public class AltScountController implements Initializable{
 		    	}
 		    };
 		});
+		
+		
+		//  Is there any device connected ?
+		searchForAmbit();
 		
 	}
 	
@@ -283,6 +255,39 @@ public class AltScountController implements Initializable{
 		birthYearTxt.setText("" + settings.getBirthYear());
 		weightTxt.setText("" + settings.getWeight());
 
+	}
+	
+	private void searchForAmbit() {
+		if( !ambitManager.isConnected() ) {
+			try {
+				ambitManager.connectDevice();
+				
+				if ( !ambitManager.isConnected() ) {
+					System.out.println("No device found");
+					return;
+				}
+				
+				statusTxt.setText("Connected");
+				
+				// Now get ambit info
+				AmbitInfo ambitInfo = ambitManager.getDeviceInfo();
+				AmbitModel ambitModel = ambitManager.getAmbitModel();
+				
+				if ( ambitModel != null ) {
+					modelTxt.setText(ambitModel.getDescription() + "(" + ambitInfo.getModel() + ")");
+				}
+				serialTxt.setText(ambitInfo.getSerial());
+				
+				chargeGauge.setValue(ambitManager.getDeviceCharge());
+				
+				initMoves();
+				
+				initPersonalSettings();
+			} 
+			catch (UsbException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
