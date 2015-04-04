@@ -57,9 +57,9 @@ public class GpxExportVisitor implements ExportVisitor {
 	public void init() throws IOException {
 		
 		Path gpxFile = Paths.get( exportFile.getAbsolutePath()  );
-		
+		Files.deleteIfExists(gpxFile);
 	
-		writerGpx = Files.newBufferedWriter(gpxFile,  StandardCharsets.UTF_8, StandardOpenOption.WRITE, StandardOpenOption.CREATE_NEW );
+		writerGpx = Files.newBufferedWriter(gpxFile,  StandardCharsets.UTF_8, StandardOpenOption.WRITE, StandardOpenOption.CREATE, StandardOpenOption.CREATE_NEW );
 		
 		//StringBuffer start = new StringBuffer();
 		writerGpx.write("<gpx xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " );

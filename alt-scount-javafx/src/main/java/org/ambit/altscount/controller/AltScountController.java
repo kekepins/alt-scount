@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.prefs.Preferences;
 
 import org.ambit.data.AmbitInfo;
 import org.ambit.data.AmbitModel;
@@ -206,10 +205,22 @@ public class AltScountController implements Initializable{
 							} catch (Exception e) {
 								e.printStackTrace();
 							} 
+	                		
 	                	}
 	                	
 	                	return null;
 	                	
+	                }
+	                
+	                @Override 
+	                protected void succeeded() {
+	                    super.succeeded();
+	                    for (LogInfo logInfo : logsToExport ) {
+	                    	logInfo.selectedProperty().set(false);
+	                    }
+	                    
+	                    refreshListView();
+	                    
 	                }
 	            };
 	        }
@@ -224,6 +235,8 @@ public class AltScountController implements Initializable{
         	.showWorkerProgress(service);
 
 	    service.start();
+	    
+	    
 	    
 	}
 	
@@ -309,5 +322,18 @@ public class AltScountController implements Initializable{
 		}
 
 	}
+	
+	
+	private void refreshListView() {
 
+		System.out.println("Refresh List view");
+		// Better solution ??
+		if ( moves != null && moves.size() > 0) {
+			moveTableView.setItems(null);
+			moveTableView.layout();
+			moveTableView.setItems(FXCollections.observableArrayList(moves));
+		}
+
+	}
+ 
 }
