@@ -90,7 +90,7 @@ public class AltScountController implements Initializable{
 	// Model
 	private List<LogInfo> moves;
 	
-	private File exportDir;// = new File("d:\\gps\\test\\");
+	private File exportDir;
 
 	@FXML
 	public void handleFindBtnAction(ActionEvent event) {
@@ -104,6 +104,7 @@ public class AltScountController implements Initializable{
 		
 		prefs = AltScountPreferences.getPreference();
 		exportDir = prefs.getSynchroDir();
+		//exportDir = null;
 		if ( exportDir != null ) {
 			dirTextField.setText(exportDir.getAbsolutePath());
 		}
@@ -155,6 +156,7 @@ public class AltScountController implements Initializable{
 		    	}
 		    };
 		});
+		
 		
 		
 		//  Is there any device connected ?
@@ -227,17 +229,9 @@ public class AltScountController implements Initializable{
 	
 	@FXML
 	public void handleChangeDirBtnAction(ActionEvent event) {
-		Window window = root.getScene().getWindow();
-		final DirectoryChooser directoryChooser = new DirectoryChooser();
-		exportDir = directoryChooser.showDialog(window);
 		
-		if ( exportDir != null ) {
-			dirTextField.setText(exportDir.getAbsolutePath());
-			
-			// Save in prefs
-			prefs.saveSynchoDir(exportDir);
-		}
- 
+		chooseSynchDirectory();
+
 	}
 
 	
@@ -288,6 +282,32 @@ public class AltScountController implements Initializable{
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private void chooseSynchDirectory() {
+		Window window = root.getScene().getWindow();
+		final DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle("Choose a directory to persist Gps files");
+		
+		if ( exportDir != null ) {
+			directoryChooser.setInitialDirectory(exportDir);
+		}
+		
+		exportDir = directoryChooser.showDialog(window);
+		
+		if ( exportDir != null ) {
+			dirTextField.setText(exportDir.getAbsolutePath());
+			
+			// Save in prefs
+			prefs.saveSynchoDir(exportDir);
+		}
+	}
+	
+	public void verifySyncDir() {
+		if ( exportDir == null) {
+			chooseSynchDirectory();
+		}
+
 	}
 
 }

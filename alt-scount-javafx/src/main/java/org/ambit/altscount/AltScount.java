@@ -2,12 +2,13 @@ package org.ambit.altscount;
 
 import java.io.IOException;
 
+import org.ambit.altscount.controller.AltScountController;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
-
 import javafx.stage.Stage;
 
 public class AltScount extends Application {
@@ -43,6 +44,9 @@ public class AltScount extends Application {
             this.primaryStage.getIcons().add(new Image (this.getClass().getResourceAsStream("/logo3.png")));
             primaryStage.setScene(scene);
             primaryStage.show();
+            
+            AltScountController controller =  loader.getController();
+            controller.verifySyncDir();
         } catch (IOException e) {
             e.printStackTrace();
         }
