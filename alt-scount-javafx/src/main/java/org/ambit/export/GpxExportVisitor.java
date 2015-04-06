@@ -29,7 +29,7 @@ import org.ambit.data.sample.TimeEvent;
 
 public class GpxExportVisitor implements ExportVisitor {
 	
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'.000Z'");
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000Z'");
 	
 	private int lastGpsBaseLatitude;
 	private int lastGpsBaseLongitude;
