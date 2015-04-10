@@ -21,6 +21,10 @@
 		<!-- Enzo version -->
 		<enzo.version>0.2.1</enzo.version>
 		<hid4java>0.3.1</hid4java>
+		
+		<!-- Spring version -->
+		<spring.version>4.1.6.RELEASE</spring.version>
+		
 	</properties>
 
 	<dependencies>
@@ -36,7 +40,13 @@
 			<artifactId>altscount-usb</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
+		
+		<!-- rest template to communicate with movescount -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>4.1.6.RELEASE</version>
+		</dependency>
 
 		<!-- some javafx goodies, charge gauge -->
 		<dependency>
