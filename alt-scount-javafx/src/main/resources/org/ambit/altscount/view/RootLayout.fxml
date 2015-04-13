@@ -152,6 +152,38 @@
                            </children></AnchorPane>
                   </content>
                 </Tab>
+                  <Tab fx:id="tabPois" text="POIs">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="poisTableView" layoutX="28.0" layoutY="28.0" prefHeight="248.0" prefWidth="438.0">
+                                <columns>
+                                    <TableColumn prefWidth="75.0" text="Name" >
+                                  		<cellValueFactory>
+                                             <PropertyValueFactory property="name" />
+                                    	</cellValueFactory>
+                                    </TableColumn>
+                                    <TableColumn prefWidth="75.0" text="Latitude" >
+                                   		<cellValueFactory>
+                                             <PropertyValueFactory property="latitude" />
+                                    	</cellValueFactory>
+                                    </TableColumn>
+                                   <TableColumn prefWidth="75.0" text="Longitude" >
+                                  		<cellValueFactory>
+                                             <PropertyValueFactory property="longitude" />
+                                    	</cellValueFactory>
+                                    </TableColumn>
+                                   <TableColumn prefWidth="75.0" text="Type" >
+                                  		<cellValueFactory>
+                                             <PropertyValueFactory property="type" />
+                                    	</cellValueFactory>
+                                    </TableColumn>
+
+                                 </columns>
+                              </TableView>
+                           </children></AnchorPane>
+                    </content>
+                  </Tab>
               </tabs>
             </TabPane>
          </children></AnchorPane>

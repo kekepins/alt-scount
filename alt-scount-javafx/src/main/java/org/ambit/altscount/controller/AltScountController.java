@@ -4,12 +4,16 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.ambit.data.AmbitInfo;
 import org.ambit.data.AmbitModel;
 import org.ambit.data.AmbitSettings;
 import org.ambit.data.LogInfo;
+import org.ambit.movescount.MovesScountService;
+import org.ambit.movescount.model.AmbitDeviceInfo;
+import org.ambit.movescount.model.POI;
 import org.ambit.pref.AltScountPreferences;
 import org.ambit.usb.UsbException;
 import org.controlsfx.dialog.Dialogs;
@@ -20,14 +24,18 @@ import javafx.collections.FXCollections;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -42,6 +50,8 @@ import javafx.stage.Window;
 public class AltScountController implements Initializable{
 	
 	private AmbitManager ambitManager = new AmbitManager();
+	
+	private MovesScountService movescountService = new MovesScountService();
 	
 	private AltScountPreferences prefs;
 	
@@ -82,12 +92,23 @@ public class AltScountController implements Initializable{
 	@FXML
 	private TableColumn<LogInfo,String> colColor;
 	
+	@FXML
+	private Tab tabPois;
+	
+	@FXML
+	private TableView<POI> poisTableView;
+
+	
+	boolean isPoisInit = false;
+	
 	private Image okImg;
 	
 	private Image unsyncImg;
 	
 	// Model
 	private List<LogInfo> moves;
+	
+	private List<POI> pois;
 	
 	private File exportDir;
 
@@ -156,6 +177,8 @@ public class AltScountController implements Initializable{
 		    };
 		});
 		
+		tabPois.setOnSelectionChanged(e -> handleTabPoisChanged());
+		
 		
 		
 		//  Is there any device connected ?
@@ -163,6 +186,80 @@ public class AltScountController implements Initializable{
 		
 	}
 	
+
+
+
+	/**
+	 * Tab pois selected 
+	 */
+	private void handleTabPoisChanged() {
+		
+		if ( isPoisInit ) {
+			return;
+		}
+		
+		if  (tabPois.isSelected() ) {
+			System.out.println("Selected");
+			
+			String email = this.prefs.getMovescountEmail();
+			
+			if ( email == null ) {
+				// ask user
+				TextInputDialog dialog = new TextInputDialog("@");
+				dialog.setTitle("Movescount email ?");
+				dialog.setHeaderText("Movescount email is needed to call movescount");
+				dialog.setContentText("Email:");
+
+				// Traditional way to get the response value.
+				Optional<String> result = dialog.showAndWait();
+
+				// The Java 8 way to get the response value (with lambda expression).
+				result.ifPresent( 
+					name -> {
+						prefs.saveMovescountEmail(name);
+						});
+				
+				email = this.prefs.getMovescountEmail();
+				
+			}
+			
+			String userKey = this.prefs.getUserKey();
+			
+			if ( userKey == null ) {
+				TextInputDialog dialog = new TextInputDialog("");
+				dialog.setTitle("Movescount user key ?");
+				dialog.setHeaderText("Movescount user key is needed to call movescount");
+				dialog.setContentText("user key:");
+
+				// Traditional way to get the response value.
+				Optional<String> result = dialog.showAndWait();
+
+				// The Java 8 way to get the response value (with lambda expression).
+				result.ifPresent(
+						name -> {
+							prefs.saveUserKey(name);
+						});
+				userKey = this.prefs.getUserKey();
+
+			}
+			String deviceId =  this.prefs.getAmbitSerial();
+			if ( email != null && userKey != null && deviceId != null) {
+				AmbitDeviceInfo ambitDeviceInfo = movescountService.readAmbitDeviceInfo(deviceId, email, userKey);
+				if (ambitDeviceInfo != null ) {
+					pois = ambitDeviceInfo.getPois();
+					
+					if ( pois != null && pois.size() > 0) {
+						poisTableView.setItems(FXCollections.observableArrayList(pois));
+					}
+
+				}
+				
+			}
+		}
+
+	}
+
+
 	@FXML
 	public void handleExportBtnAction(ActionEvent event) {
 		System.out.println("handleExportBtnAction");
@@ -278,13 +375,15 @@ public class AltScountController implements Initializable{
 				
 				// Now get ambit info
 				AmbitInfo ambitInfo = ambitManager.getDeviceInfo();
+				
 				AmbitModel ambitModel = ambitManager.getAmbitModel();
+				
+				prefs.saveAmbitSerial(ambitInfo.getSerial());
 				
 				if ( ambitModel != null ) {
 					modelTxt.setText(ambitModel.getDescription() + "(" + ambitInfo.getModel() + ")");
 				}
 				serialTxt.setText(ambitInfo.getSerial());
-				
 				chargeGauge.setValue(ambitManager.getDeviceCharge());
 				
 				initMoves();
@@ -335,5 +434,7 @@ public class AltScountController implements Initializable{
 		}
 
 	}
+	
+
  
 }

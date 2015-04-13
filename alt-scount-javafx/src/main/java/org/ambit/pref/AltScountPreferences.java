@@ -5,7 +5,11 @@ import java.util.prefs.Preferences;
 
 public class AltScountPreferences {
 	
-	private static final String PREF_SYNCHRO_DIR = "syncho.dir";
+	private static final String PREF_SYNCHRO_DIR 		= "synchro.dir";
+	private static final String PREF_MOVESCOUNT_EMAIL 	= "movescount.email";
+	private static final String PREF_AMBIT_SERIAL 		= "ambit.serial";
+	private static final String PREF_USER_KEY 			= "user.key";
+	
 	
 	private final Preferences ambitPrefs;
 	
@@ -29,9 +33,39 @@ public class AltScountPreferences {
 		return null;
 	}
 	
+	public String getMovescountEmail() {
+		return ambitPrefs.get(PREF_MOVESCOUNT_EMAIL, null);
+	}
+	
+	public String getAmbitSerial() {
+		return ambitPrefs.get(PREF_AMBIT_SERIAL, null);
+	}
+	
+	public String getUserKey() {
+		return ambitPrefs.get(PREF_USER_KEY, null);
+	}
+	
 	public void saveSynchoDir(File dir) {
 		if ( dir != null ) {
 			ambitPrefs.put(PREF_SYNCHRO_DIR, dir.getAbsolutePath());
+		}
+	}
+	
+	public void saveMovescountEmail(String email) {
+		if ( email != null ) {
+			ambitPrefs.put(PREF_MOVESCOUNT_EMAIL, email);
+		}
+	}
+	
+	public void saveAmbitSerial(String ambitSerial) {
+		if ( ambitSerial != null ) {
+			ambitPrefs.put(PREF_AMBIT_SERIAL, ambitSerial);
+		}
+	}
+	
+	public void saveUserKey(String userKey) {
+		if ( userKey != null ) {
+			ambitPrefs.put(PREF_USER_KEY, userKey);
 		}
 	}
 	
