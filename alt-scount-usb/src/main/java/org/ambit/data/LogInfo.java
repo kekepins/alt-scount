@@ -80,7 +80,9 @@ public class LogInfo {
 	public String getCompleteName() {
 		String activ = activityName.trim();
 		activ = activ.replace(' ', '+');
-		return "Move_" + year + "_" + month + "_" + day + "_" + hour + "_" + minute + "_" + sec + "_" + activ;
+		
+		return String.format("Move_%d_%02d_%02d_%02d_%02d_%02d_%s",year, month, day, hour, minute, sec, activ);
+		//return "Move_" + year + "_" + month + "_" + day + "_" + hour + "_" + minute + "_" + sec + "_" + activ;
 	}
 	
 	
