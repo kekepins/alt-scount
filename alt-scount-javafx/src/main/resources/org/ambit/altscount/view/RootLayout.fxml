@@ -66,7 +66,15 @@
                         <Insets top="5.0" />
                      </padding>
                   </HBox>
-                  <SimpleGauge fx:id="chargeGauge" prefHeight="192.0" prefWidth="315.0" sectionTextVisible="true" styleClass="red-to-green-10" unit="\%" />
+                  <TitledPane alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" text="Charge">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <SimpleGauge fx:id="chargeGauge" prefHeight="113.0" prefWidth="317.0" sectionTextVisible="true" styleClass="red-to-green-10" unit="\%" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
                </items></SplitPane>
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
@@ -118,7 +126,7 @@
                                           <Button mnemonicParsing="false" onAction="#handleChangeDirBtnAction" text="Change" />
                                        </children>
                                        <VBox.margin>
-                                          <Insets top="2.0" />
+                                          <Insets bottom="2.0" top="2.0" />
                                        </VBox.margin>
                                     </HBox>
                                  </children>
@@ -158,22 +166,22 @@
                            <children>
                               <TableView fx:id="poisTableView" layoutX="28.0" layoutY="28.0" prefHeight="248.0" prefWidth="438.0">
                                 <columns>
-                                    <TableColumn prefWidth="75.0" text="Name" >
+                                    <TableColumn prefWidth="75.0" text="Name">
                                   		<cellValueFactory>
                                              <PropertyValueFactory property="name" />
                                     	</cellValueFactory>
                                     </TableColumn>
-                                    <TableColumn prefWidth="75.0" text="Latitude" >
+                                    <TableColumn prefWidth="75.0" text="Latitude">
                                    		<cellValueFactory>
                                              <PropertyValueFactory property="latitude" />
                                     	</cellValueFactory>
                                     </TableColumn>
-                                   <TableColumn prefWidth="75.0" text="Longitude" >
+                                   <TableColumn prefWidth="75.0" text="Longitude">
                                   		<cellValueFactory>
                                              <PropertyValueFactory property="longitude" />
                                     	</cellValueFactory>
                                     </TableColumn>
-                                   <TableColumn prefWidth="75.0" text="Type" >
+                                   <TableColumn prefWidth="75.0" text="Type">
                                   		<cellValueFactory>
                                              <PropertyValueFactory property="type" />
                                     	</cellValueFactory>
