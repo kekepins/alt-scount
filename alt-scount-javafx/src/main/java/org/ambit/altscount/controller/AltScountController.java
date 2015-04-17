@@ -16,10 +16,16 @@ import org.ambit.movescount.model.AmbitDeviceInfo;
 import org.ambit.movescount.model.POI;
 import org.ambit.pref.AltScountPreferences;
 import org.ambit.usb.UsbException;
+import org.controlsfx.control.ButtonBar;
+import org.controlsfx.control.ButtonBar.ButtonType;
+import org.controlsfx.control.action.Action;
+import org.controlsfx.dialog.Dialog;
+import org.controlsfx.dialog.DialogAction;
 import org.controlsfx.dialog.Dialogs;
 
 import eu.hansolo.enzo.common.Section;
 import eu.hansolo.enzo.gauge.SimpleGauge;
+import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -28,8 +34,10 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -40,6 +48,8 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -97,6 +107,9 @@ public class AltScountController implements Initializable{
 	
 	@FXML
 	private TableView<POI> poisTableView;
+	
+	@FXML
+	private ImageView ambitImgView;
 
 	
 	boolean isPoisInit = false;
@@ -178,8 +191,6 @@ public class AltScountController implements Initializable{
 		});
 		
 		tabPois.setOnSelectionChanged(e -> handleTabPoisChanged());
-		
-		
 		
 		//  Is there any device connected ?
 		searchForAmbit();
@@ -435,6 +446,9 @@ public class AltScountController implements Initializable{
 
 	}
 	
-
- 
+	@FXML
+	public void onImgClicked() {
+		DialogHelper.displayDialogPreferences((Stage) root.getScene().getWindow());
+	}
+	
 }

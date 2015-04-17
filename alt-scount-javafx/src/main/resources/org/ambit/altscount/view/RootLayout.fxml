@@ -18,7 +18,7 @@
                <items>
                   <HBox spacing="20.0">
                      <children>
-                        <ImageView fitHeight="150.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="ambitImgView" fitHeight="150.0" fitWidth="73.0" onMouseClicked="#onImgClicked" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="ambit2r.png" />
                            </image>

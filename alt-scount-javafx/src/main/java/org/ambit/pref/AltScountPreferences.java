@@ -9,7 +9,9 @@ public class AltScountPreferences {
 	private static final String PREF_MOVESCOUNT_EMAIL 	= "movescount.email";
 	private static final String PREF_AMBIT_SERIAL 		= "ambit.serial";
 	private static final String PREF_USER_KEY 			= "user.key";
-	
+	private static final String PREF_PROXY_HOST			= "proxy.host";
+	private static final String PREF_PROXY_PORT			= "proxy.port";
+		
 	
 	private final Preferences ambitPrefs;
 	
@@ -77,6 +79,27 @@ public class AltScountPreferences {
 		
 		return instance;
 	}
+
+	public String getProxyHost() {
+		return ambitPrefs.get(PREF_PROXY_HOST, null);
+	}
+
+	public String getProxyPort() {
+		return ambitPrefs.get(PREF_PROXY_PORT, null);
+	}
+	
+	public void saveProxyPort(String proxyPort) {
+		if ( proxyPort != null ) {
+			ambitPrefs.put(PREF_PROXY_PORT, proxyPort);
+		}
+	}
+
+	public void saveProxyHost(String proxyHost) {
+		if ( proxyHost != null ) {
+			ambitPrefs.put(PREF_PROXY_HOST, proxyHost);
+		}
+	}
+
 	
 
 }
