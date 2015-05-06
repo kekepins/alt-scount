@@ -32,8 +32,8 @@ public class SamplesReader {
 			logInfo.setStartInfoPart(logInfoPart);
 			int sampleCount = logInfo.getSampleCount();
 			logInfoPart = logInfo.getNextInfoPart();
-			System.out.println(i + " Sample count " + sampleCount + " next part " + logInfoPart);
-			System.out.println( logInfo.toString());
+			//System.out.println(i + " Sample count " + sampleCount + " next part " + logInfoPart);
+			//System.out.println( logInfo.toString());
 			logs.add(0, logInfo);
 		}
 		

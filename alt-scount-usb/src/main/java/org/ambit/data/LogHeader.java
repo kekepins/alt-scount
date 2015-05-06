@@ -117,10 +117,10 @@ public class LogHeader {
 	}
 	
 	public void dump() {
-		System.out.println("Activity: " + title);
+		/*System.out.println("Activity: " + title);
 		System.out.println("Sport: " + activityType  +" (82 trail, 22 ski de fond)");
 		System.out.println("Duration: " + DisplayUtils.getDurationStr(duration));
 		System.out.println("Distance: " +  distance + " m");
-		System.out.println("D+: " +  ascent + " m");
+		System.out.println("D+: " +  ascent + " m");*/
 	}
 }

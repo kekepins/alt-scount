@@ -4,8 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 
 import org.ambit.data.sample.LogSamples;
 import org.ambit.util.DataUtils;
@@ -17,8 +15,6 @@ import org.ambit.util.DataUtils;
 public class LogInfo {
 	
 	private final static int LOG_START = 0x000f4240; // 1 000 000
-	
-	//private final static short CHUNK_SIZE = 0x0400; // not the same for all models 
 	
 	private int sampleCount;
 
@@ -49,7 +45,7 @@ public class LogInfo {
     private String activityName;
     private int distance;
     
-    private BooleanProperty selectedProperty = new SimpleBooleanProperty(false);
+    //private BooleanProperty selectedProperty = new SimpleBooleanProperty(false);
     
     public double getDistance() {
     	return distance / 1000.;
@@ -97,64 +93,46 @@ public class LogInfo {
 	
 	private void fromData(List<Byte> data, int chunkSize) {
 		
-		//DisplayUtils.displayBytes(data);
-		//if ( data != null ) return;
-		
 		int pos = 0;
 		int adress = DataUtils.readInt(data, pos); // 40420f00 ?
-        //System.out.println("adress:" + adress);
         pos += 4 ;
         
         int length = DataUtils.readInt(data, pos);
-        //System.out.println("length:" + length);
         pos += 4 ;
         
         int lastAdress = DataUtils.readInt(data, pos);
-        //System.out.println("lastAdress:" + lastAdress);
         pos += 4 ;
 
         int linkAdress = DataUtils.readInt(data, pos);
-        //System.out.println("linkAdress:" + linkAdress);
         pos += 4 ;
 
         int entryCount = DataUtils.readInt(data, pos);
-        //System.out.println("entryCount:" + entryCount);
         pos += 4 ;
         
         int nextFreeAdress = DataUtils.readInt(data, pos);
-        //System.out.println("nextFreeAdress:" + nextFreeAdress);
-        pos += 4 ;
+         pos += 4 ;
         
         while ((data.get(pos) != 0x50) || (data.get(pos+1) != 0x4d) ) {
         	pos++;
         }
 
-        //PMEM
-        /*System.out.printf(" %02x%02x%02x%02x", 
-				data.get(pos), data.get(pos+1), 
-				data.get(pos+2), data.get(pos+3));*/
-        
+  
         pos += 4; 
         
         nextEntryAdress = DataUtils.readInt(data, pos);
-        //System.out.println("nextAdress:" + nextEntryAdress);
         pos += 4 ;
         
         nextInfoPart = (nextEntryAdress - LOG_START) / chunkSize;
         
         int previousEntryAdress = DataUtils.readInt(data, pos);
-        //System.out.println("previousEntryAdress:" + previousEntryAdress);
         pos += 4 ;
         
         short headerLength = DataUtils.readShort(data, pos);
-        //System.out.println("headerLength:" + headerLength);
         pos += 2 ;
         
         pos += headerLength;
-        //pos+=2;
         
         short headerLength2 = DataUtils.readShort(data, pos);
-        //System.out.println("headerLength2:" + headerLength2);
         pos += 2 ;
         
         pos+=1; // unknow
@@ -168,63 +146,48 @@ public class LogInfo {
         minute = DataUtils.readByte(data, pos++);
         sec = DataUtils.readByte(data, pos++);
         
-        //System.out.println(String.format("Date %d/%d/%d %d:%d:%d", year, month, day, hour, minute, sec));
-        
-        pos+=5; //unknow
+         pos+=5; //unknow
         duration =  DataUtils.readInt(data, pos);
-        //System.out.println("duration:" + duration);
         pos+=4;
         ascent = DataUtils.readShort(data, pos);
         pos+=2;
         descent = DataUtils.readShort(data, pos);
         pos+=2;
-        //System.out.println(String.format("%d+ %d-:", ascent, descent));
         
         int ascentTime =  DataUtils.readInt(data, pos); //OK
-        //System.out.println("ascentTime:" + ascentTime);
         pos+=4;
         
         int descentTime =  DataUtils.readInt(data, pos);
-        //System.out.println("descentTime:" + descentTime);
         pos+=4;
         
         short logRecovery = DataUtils.readShort(data, pos);
-        //System.out.println("logRecovery:" + logRecovery);
         pos+=2;
         
         avgSpeed = DataUtils.readShort(data, pos);  // m/h
-        //System.out.println("avgSpeed:" + avgSpeed);
         pos+=2;
 
         short maxSpeed = DataUtils.readShort(data, pos);  // m/h
-        //System.out.println("maxSpeed:" + maxSpeed);
         pos+=2;
         
         //pos+=2;
         
         altiMax = DataUtils.readShort(data, pos);
-        //System.out.println("altiMax:" + altiMax);
-        pos+=2;
+         pos+=2;
         
         altiMin = DataUtils.readShort(data, pos);
-        //System.out.println("altiMin:" + altiMin);
         pos+=2;
         
         short hrAvg = DataUtils.readByte(data, pos);
-        //System.out.println("hrAvg:" + hrAvg);
-        pos++;
+         pos++;
         
         short hrMax = DataUtils.readByte(data, pos);
-        //System.out.println("hrMax:" + hrMax);
         pos++;
         
         short peekEffect = DataUtils.readByte(data, pos);
-        //System.out.println("peekEffect:" + peekEffect);
         pos++;
 
         activityType = DataUtils.readByte(data, pos);
-        //System.out.println("activityType:" + activityType);
-        pos++;
+         pos++;
         
         activityName = "";
 		try {
@@ -233,21 +196,17 @@ public class LogInfo {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        //System.out.println("activityName:" + activityName);
         pos += 16;
         
         short hrMin = DataUtils.readByte(data, pos);
-        //System.out.println("hrMin:" + hrMin);
-        pos++;
+         pos++;
         
         pos++;
         
         short tempMax = DataUtils.readShort(data, pos);
-        //System.out.println("tempMax:" + tempMax);
         pos+=2;
         
         short tempMin = DataUtils.readShort(data, pos);
-        //System.out.println("tempMin:" + tempMin);
         pos+=2;
      
         distance =  DataUtils.readInt(data, pos);
@@ -255,8 +214,7 @@ public class LogInfo {
         pos+=4;
  
         sampleCount =  DataUtils.readInt(data, pos);
-        //System.out.println("sampleCount:" + sampleCount);
-        pos+=4;
+         pos+=4;
         
         short energy = DataUtils.readShort(data, pos);
         //System.out.println("energy:" + energy);
@@ -267,29 +225,23 @@ public class LogInfo {
         pos++;
         
         short cadenceAvg = DataUtils.readByte(data, pos);
-        //System.out.println("cadenceAvg:" + cadenceAvg);
         pos++;
 
         pos += 2;
         
         short swimLength = DataUtils.readShort(data, pos);
-        //System.out.println("swimLength:" + swimLength);
         pos+=2;
   
         int speedMaxTime =  DataUtils.readInt(data, pos);
-        //System.out.println("speedMaxTime:" + speedMaxTime);
         pos+=4;
          
         int altMaxTime =  DataUtils.readInt(data, pos);
-        //System.out.println("altMaxTime:" + altMaxTime);
         pos+=4;
 
         int altMinTime =  DataUtils.readInt(data, pos);
-        //System.out.println("altMinTime:" + altMinTime);
         pos+=4;
 
         int hrMaxTime =  DataUtils.readInt(data, pos);
-        //System.out.println("hrMaxTime:" + hrMaxTime);
         pos+=4;
 
         int hrMinTime =  DataUtils.readInt(data, pos);
@@ -297,40 +249,31 @@ public class LogInfo {
         pos+=4;
         
         int tempMaxTime =  DataUtils.readInt(data, pos);
-        //System.out.println("tempMaxTime:" + tempMaxTime);
         pos+=4;
 
         int tempMinTime =  DataUtils.readInt(data, pos);
-        //System.out.println("tempMinTime:" + tempMinTime);
         pos+=4;
         
         int cadenceMaxTime =  DataUtils.readInt(data, pos);
-        //System.out.println("cadenceMaxTime:" + cadenceMaxTime);
         pos+=4;
         
         int swimmingPoolLength =  DataUtils.readInt(data, pos);
-        //System.out.println("swimmingPoolLength:" + swimmingPoolLength);
         pos+=4;
         
         short logHeaderTime = DataUtils.readShort(data, pos);
-        //System.out.println("logHeaderTime:" + logHeaderTime);
         pos+=2;
    
         short batteryStart = DataUtils.readByte(data, pos);
-        //System.out.println("batteryStart:" + batteryStart);
-        pos++;
+         pos++;
         
         short batteryStop = DataUtils.readByte(data, pos);
-        //System.out.println("batteryStop:" + batteryStop);
         pos++;
         
         pos+=4;  // unknown
         
         int distanceBeforeCalib =  DataUtils.readInt(data, pos);  // OK
-        //System.out.println("distanceBeforeCalib:" + distanceBeforeCalib);
         pos+=4;
         
-        System.out.println("pos start " + pos);
         if ( headerLength2 >= 913 ) {
         	pos += 24; // unknow
         	
@@ -389,17 +332,11 @@ public class LogInfo {
             short peak2 = DataUtils.readByte(data, pos++);
             short activityType2 = DataUtils.readByte(data, pos++);
             
-            //System.out.println("pos bef " + pos);
-            
-            //System.out.println("Add " + (headerLength2 -211));
             
             pos += headerLength2 -211; 
-            
-            //System.out.println("pos end " + pos);
-            
+             
             List<Byte> sampleStartData = new ArrayList<Byte>();
             for ( int i = pos; i < data.size(); i++) {
-            	//System.out.println(String.format("pos %d : %02x", i, data.get(i)));
             	sampleStartData.add(data.get(i));
             }
             
@@ -420,7 +357,7 @@ public class LogInfo {
 		 
 	}
 
-
+/*
 	public BooleanProperty selectedProperty() { 
 		return this.selectedProperty; 
 	}
@@ -428,6 +365,7 @@ public class LogInfo {
 	public boolean isSelected() {
 		return this.selectedProperty.get();
 	}
+*/
 	
 	public int getStartInfoPart() {
 		return startInfoPart;

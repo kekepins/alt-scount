@@ -21,4 +21,6 @@ public interface Device {
 	public boolean isOpen();
 	
 	public AmbitModel getAmbitModel();
+	
+	public void log(String log);
 }

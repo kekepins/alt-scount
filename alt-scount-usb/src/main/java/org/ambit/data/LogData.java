@@ -19,14 +19,14 @@ public class LogData {
 	}
 	
 	private void fromData(List<Byte> data) {
-		System.out.println("data");
+		//System.out.println("data");
 		int pos = 0;
 		short sampleLen =  DataUtils.readShort(data, pos);
-		System.out.println("sampleLen:" + sampleLen);
+		//System.out.println("sampleLen:" + sampleLen);
 		sampleLen+=2;
 		
 		short type =  DataUtils.readByte(data, pos);
-		System.out.println("type:" + type);
+		//System.out.println("type:" + type);
 		pos++;
 
 	  

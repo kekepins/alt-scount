@@ -1,6 +1,7 @@
 package org.ambit.usb;
 
 import org.ambit.data.AmbitModel;
+import org.apache.log4j.Logger;
 import org.hid4java.HidDevice;
 import org.hid4java.HidException;
 import org.hid4java.HidManager;
@@ -10,6 +11,7 @@ public class HidUsbDevice implements Device {
 	
 	private HidDevice hidDDevice;
 	private AmbitModel ambitModel;
+	private static final Logger logger = Logger.getLogger(HidUsbDevice.class);
 	
 	HidUsbDevice() {
 	}
@@ -81,6 +83,12 @@ public class HidUsbDevice implements Device {
 	public AmbitModel getAmbitModel() {
 		// TODO Auto-generated method stub
 		return ambitModel;
+	}
+
+	@Override
+	public void log(String log) {
+		logger.debug(log);
+		
 	}
 
 

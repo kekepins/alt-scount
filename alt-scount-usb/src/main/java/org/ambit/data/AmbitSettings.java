@@ -174,14 +174,14 @@ public class AmbitSettings {
 	
 
 	public void dump() {
-		System.out.println("Taille: " + length + " cm" );
+		/*System.out.println("Taille: " + length + " cm" );
 		System.out.println("Homme: " + isMale  );
 		System.out.println("birthYear: " + birthYear  );
 		System.out.println("weight: " + weight/ 100  );
 		System.out.println("maxHr: " + maxHr  );
 		System.out.println("language: " + language + " (2 en, 4 fr)" );
 		System.out.println("displayBrightness: " + displayBrightness + "%" );
-		System.out.println("...");
+		System.out.println("...");*/
 		
 	}
 	

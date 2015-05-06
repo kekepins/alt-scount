@@ -70,10 +70,10 @@ public class DebugSamplesCommand extends AmbitCommandExecutor<Integer> {
 
 	@Override
 	protected Integer extractResult(List<Byte> byteBuffer) {
-		System.out.println("-----------------------------");
-		System.out.println("PART " + partNumber);
+		//System.out.println("-----------------------------");
+		//System.out.println("PART " + partNumber);
 		DisplayUtils.displayBytes(byteBuffer);
-		System.out.println("-----------------------------");
+		//System.out.println("-----------------------------");
 		return -1;
 	}
 

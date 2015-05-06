@@ -6,6 +6,8 @@ import java.util.List;
 
 import javafx.beans.property.ReadOnlyLongWrapper;
 
+import org.ambit.command.AmbitCommand;
+import org.ambit.command.AmbitSendData;
 import org.ambit.command.DeviceInfoCommandExecutor;
 import org.ambit.command.LogDescCommandExecutor;
 import org.ambit.command.LogSampleCommandExecutor;
@@ -150,6 +152,50 @@ public class AmbitManager {
 
 
 	}
+	
+	   /**
+     * Get settings
+     */
+    public AmbitSettings getSettings2() throws UsbException {
+        /*SettingsCommandExecutor settingCommand = new SettingsCommandExecutor();
+        return settingCommand.executeCommand(ambitDevice);*/
+
+        AmbitSendData sendData = new AmbitSendData(AmbitCommand.PERSONNAL_SETTINGS, null);
+        byte[] data = sendData.getData();
+        int val = ambitDevice.write(data, 64, (byte) 0);
+        ambitDevice.log("Message write cmd " + AmbitCommand.PERSONNAL_SETTINGS);
+
+        // Prepare to read a single data packet
+        boolean moreData = true;
+        boolean isFirst = true;
+        while (moreData) {
+            byte readData[] = new byte[64];
+            val = ambitDevice.read(readData, 500);
+            ambitDevice.log("Message read cmd " + AmbitCommand.PERSONNAL_SETTINGS + " ret " + val);
+
+            switch (val) {
+                case 0:
+                    moreData = false;
+                    break;
+                default:
+                    // Where is use full data is starting ?
+                    /*int startIdx = OTHER_PACKET_DATA_START;
+                    if ( isFirst) {
+                        startIdx = FIRST_PACKET_DATA_START;
+                    }
+                    for ( int i = startIdx; i < (readData.length - 2); i++) {
+                        byteBuffer.add(readData[i]);
+                    }*/
+                    break;
+            }
+
+            isFirst = false;
+        }
+
+        return null;
+
+    }
+
 	
 
 }

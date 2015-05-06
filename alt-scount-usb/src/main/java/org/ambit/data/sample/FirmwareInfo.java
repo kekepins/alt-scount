@@ -29,7 +29,7 @@ public class FirmwareInfo extends Activity {
 		int pos = position;
 
 		short logType = DataUtils.readByte(data, pos + 4);
-		System.out.println("logType:" + logType);
+		//System.out.println("logType:" + logType);
 		
 		name = "firmware info";
 		//System.out.println("Firmware info");

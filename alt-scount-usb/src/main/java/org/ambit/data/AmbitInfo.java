@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.ambit.util.DataUtils;
+import org.ambit.util.DisplayUtils;
 
 public class AmbitInfo {
 	

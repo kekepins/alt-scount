@@ -1,4 +1,6 @@
 package org.ambit.command;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,7 @@ import org.ambit.util.DataUtils;
 /**
  * Read log infos
  */
-public class LogDescCommandExecutor  {
+public class LogDescCommandExecutor {
 	private static final int PACKET_LENGTH = 64;
 
 	private final static int LOG_START = 0x000f4240; // 1 000 000
@@ -145,7 +147,7 @@ public class LogDescCommandExecutor  {
 	
 	protected LogInfo extractResult(List<Byte> byteBuffer, int chunkSize) {
 		
-		//DisplayUtils.displayBytes(byteBuffer);
+			
 		return new LogInfo(byteBuffer, partNumber + 1, chunkSize);
 	}
 	

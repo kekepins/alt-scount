@@ -34,7 +34,7 @@ public class TestCommandExecutor extends AmbitCommandExecutor<Short> {
 			//String str = DataUtils.readString(byteBuffer, 0, byteBuffer.size(), "UTF-8");
 			String str = DataUtils.readString(byteBuffer, 0, byteBuffer.size(), "ISO-8859-15");
 			
-			System.out.println("srt-->" + str);
+			//System.out.println("srt-->" + str);
 			
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import org.ambit.altscount.model.TLogInfo;
 import org.ambit.data.AmbitInfo;
 import org.ambit.data.AmbitModel;
 import org.ambit.data.AmbitSettings;
@@ -91,16 +92,16 @@ public class AltScountController implements Initializable{
 	private SimpleGauge chargeGauge;
 	
 	@FXML
-	private TableView<LogInfo> moveTableView;
+	private TableView<TLogInfo> moveTableView;
 	
 	@FXML
 	private TextField dirTextField;
 	
 	@FXML
-	private TableColumn<LogInfo,Boolean> colCheck;
+	private TableColumn<TLogInfo,Boolean> colCheck;
 	
 	@FXML
-	private TableColumn<LogInfo,String> colColor;
+	private TableColumn<TLogInfo,String> colColor;
 	
 	@FXML
 	private Tab tabPois;
@@ -119,7 +120,7 @@ public class AltScountController implements Initializable{
 	private Image unsyncImg;
 	
 	// Model
-	private List<LogInfo> moves;
+	private List<TLogInfo> moves;
 	
 	private List<POI> pois;
 	
@@ -157,13 +158,13 @@ public class AltScountController implements Initializable{
                 new Section(80, 90),
                 new Section(90, 100));
 		
-		colCheck.setCellValueFactory(new PropertyValueFactory<LogInfo,Boolean>("selected"));
+		colCheck.setCellValueFactory(new PropertyValueFactory<TLogInfo,Boolean>("selected"));
 		colCheck.setCellFactory(column -> new CheckBoxTableCell<>()); 
 		
 
-		colColor.setCellValueFactory(new PropertyValueFactory<LogInfo, String>("completeName"));
+		colColor.setCellValueFactory(new PropertyValueFactory<TLogInfo, String>("completeName"));
 		colColor.setCellFactory(column -> {
-		    return new TableCell<LogInfo, String>() {
+		    return new TableCell<TLogInfo, String>() {
 		    	@Override
 		        protected void updateItem(String item, boolean empty) {
 		    		super.updateItem(item, empty); 
@@ -210,7 +211,7 @@ public class AltScountController implements Initializable{
 		}
 		
 		if  (tabPois.isSelected() ) {
-			System.out.println("Selected");
+			//System.out.println("Selected");
 			
 			String email = this.prefs.getMovescountEmail();
 			
@@ -276,9 +277,9 @@ public class AltScountController implements Initializable{
 		System.out.println("handleExportBtnAction");
 		
 		if ( moves != null && moves.size() > 0) {
-			List<LogInfo> moveToExport = new ArrayList<LogInfo>();
+			List<TLogInfo> moveToExport = new ArrayList<TLogInfo>();
 			long maxStep = 0;
-			for ( LogInfo move :  moves ) {
+			for ( TLogInfo move :  moves ) {
 				if ( move.isSelected() ) {
 					moveToExport.add(move);
 					maxStep += move.getSampleCount();
@@ -289,7 +290,7 @@ public class AltScountController implements Initializable{
 		}
 	}
 	
-	private void exportLoInfos(List<LogInfo> logsToExport, long max) {
+	private void exportLoInfos(List<TLogInfo> logsToExport, long max) {
 	
 		Service<Void> service = new Service<Void>() {
 	        @Override protected Task<Void> createTask() {
@@ -305,10 +306,10 @@ public class AltScountController implements Initializable{
                             }
 	                    );
 	                	long currentProgress = 0;
-	                	for (LogInfo logInfo : logsToExport ) {
+	                	for (TLogInfo logInfo : logsToExport ) {
 	                		updateMessage("Exporting log " + logInfo.getCompleteName());
 	                		try {
-								ambitManager.exportLog(logInfo, exportDir, currentProgress, max);
+								ambitManager.exportLog(logInfo.getLogInfo(), exportDir, currentProgress, max);
 								currentProgress += logInfo.getSampleCount();
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -323,7 +324,7 @@ public class AltScountController implements Initializable{
 	                @Override 
 	                protected void succeeded() {
 	                    super.succeeded();
-	                    for (LogInfo logInfo : logsToExport ) {
+	                    for (TLogInfo logInfo : logsToExport ) {
 	                    	logInfo.selectedProperty().set(false);
 	                    }
 	                    
@@ -357,7 +358,12 @@ public class AltScountController implements Initializable{
 
 	
 	private void initMoves() throws UsbException {
-		moves =  ambitManager.readMoveDescriptions();
+		List<LogInfo> readMoves = ambitManager.readMoveDescriptions();
+		
+		moves = new ArrayList<TLogInfo>();
+		for (LogInfo logInfo : readMoves ) {
+			moves.add(new TLogInfo(logInfo));
+		}
 		
 		if ( moves != null && moves.size() > 0) {
 			moveTableView.setItems(FXCollections.observableArrayList(moves));
@@ -396,6 +402,8 @@ public class AltScountController implements Initializable{
 				}
 				serialTxt.setText(ambitInfo.getSerial());
 				chargeGauge.setValue(ambitManager.getDeviceCharge());
+				
+				ambitManager.getSettings();
 				
 				initMoves();
 				

@@ -6,6 +6,7 @@ import java.util.List;
 import org.ambit.data.AmbitModel;
 import org.ambit.usb.Device;
 import org.ambit.usb.UsbException;
+import org.ambit.util.DisplayUtils;
 
 
 public abstract class AmbitCommandExecutor <T>{
@@ -37,7 +38,8 @@ public abstract class AmbitCommandExecutor <T>{
 		AmbitSendData sendData = new AmbitSendData(getCommand(), getSendData(ambitDevice.getAmbitModel()));
 		byte[] data = sendData.getData();		
 		int val = ambitDevice.write(data, PACKET_LENGTH, (byte) 0);
-
+		ambitDevice.log("Message write cmd " + getCommand());
+		
 		List<Byte> byteBuffer = new ArrayList<Byte>();
 		
 		// Prepare to read a single data packet
@@ -46,12 +48,15 @@ public abstract class AmbitCommandExecutor <T>{
 		while (moreData) {
 			byte readData[] = new byte[PACKET_LENGTH];
 			val = ambitDevice.read(readData, READ_TIMEOUT);
+			ambitDevice.log("Message read cmd " + getCommand());
+			
 			
 			switch (val) {
 				case 0:
 					moreData = false;
 					break;
 				default:
+					DisplayUtils.displayBytes(readData);
 					// Where is use full data is starting ? 
 					int startIdx = OTHER_PACKET_DATA_START;
 					if ( isFirst) {

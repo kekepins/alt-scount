@@ -25,7 +25,7 @@ public class Time extends Activity{
 		//System.out.println("logType:" + logType);
 		
 		name = "time";
-		System.out.println("Time");
+		//System.out.println("Time");
 		time = DataUtils.readInt(data, pos);
 		//System.out.println("time3:" + time4);
 		pos += 4;
