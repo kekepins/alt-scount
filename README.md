@@ -32,6 +32,8 @@ At the moment only tested with my ambit 2R, it should work with all Ambit 2 devi
 Currently working on android.
 Not easy to communicate with Usb, but I finally find a solution.
 
+![alt tag](https://raw.githubusercontent.com/kekepins/alt-scount/img/img/android2.JPG)
+
 ![alt tag](https://raw.githubusercontent.com/kekepins/alt-scount/img/img/android.png)
 
 
