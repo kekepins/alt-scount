@@ -1,5 +1,6 @@
 # alt-scount
-Get your suunto ambit data without moveslink 
+Save your suunto ambit data without moveslink and Movescount.
+Moves are saved in gpx format.
 
 ![alt tag](https://raw.githubusercontent.com/kekepins/alt-scount/img/img/altscount.jpg)
 
@@ -20,11 +21,11 @@ $ mvn clean package
 
 # java
 
-java 8 is needed to execute
+java 8 is needed to execute alt-scount
 
 # ambit supported
 
-At the moment only tested with my ambit 2R
+At the moment only tested with my ambit 2R, it should work with all Ambit 2 devices and perhaps Ambit 1.
 
 
 
